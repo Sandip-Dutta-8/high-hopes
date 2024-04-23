@@ -18,9 +18,10 @@ const NavItems = () => {
             key={link.route}
             className={`${
               isActive && 'text-primary-500'
-            } flex-center p-medium-16 whitespace-nowrap`}
+            } flex-center p-medium-16 whitespace-nowrap relative group`}
           >
-            <Link href={link.route}>{link.label}</Link>
+            <Link href={link.route} className=''>{link.label}</Link>
+            <span className="absolute -bottom-2 left-0 w-0 h-1 bg-primary-500 transition-all group-hover:w-full"></span>
           </li>
         )
       })}
