@@ -1,4 +1,17 @@
-import { Schema, model, models } from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import { Types } from "mongoose";
+import { Document } from "mongoose";
+
+export interface IUser extends Document {
+  clerkId: string;
+  email: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  photo: string;
+  events: Types.ObjectId[]; // Array of ObjectId references to events
+  orders: Types.ObjectId[]; // Array of ObjectId references to orders
+}
 
 const UserSchema = new Schema({
   clerkId: { type: String, required: true, unique: true },
@@ -9,6 +22,6 @@ const UserSchema = new Schema({
   photo: { type: String, required: true },
 })
 
-const User = models.User || model('User', UserSchema);
+const User = mongoose.model<IUser>('User', UserSchema);
 
 export default User;
