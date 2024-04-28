@@ -11,7 +11,6 @@ import {
     FormDescription,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
@@ -24,16 +23,19 @@ import { FileUploader } from './FileUploader'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Checkbox } from '../ui/checkbox'
-import { createEvent } from '@/lib/actions/event.actions'
+import { createEvent, updateEvent } from '@/lib/actions/event.actions'
 import { useRouter } from 'next/navigation'
 import { useUploadThing } from '@/lib/uploadthing'
+import { IEvent } from '@/lib/database/models/event.model'
 
 type EventFormProps = {
     userId: string
-    type: "Create" | "Update"
+    type: "Create" | "Update",
+    event?: IEvent,
+    eventId?: string
 }
 
-const EventForm = ({ userId, type }: EventFormProps) => {
+const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
 
     const [files, setFiles] = useState<File[]>([])
     const [startDate, setStartDate] = useState(new Date());
@@ -71,6 +73,28 @@ const EventForm = ({ userId, type }: EventFormProps) => {
                 if (newEvent) {
                     form.reset();
                     router.push(`/events/${newEvent._id}`)
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        if (type === 'Update') {
+            if (!eventId) {
+                router.back()
+                return;
+            }
+
+            try {
+                const updatedEvent = await updateEvent({
+                    userId,
+                    event: { ...values, imageUrl: uploadedImageUrl, _id: eventId },
+                    path: `/events/${eventId}`
+                })
+
+                if (updatedEvent) {
+                    form.reset();
+                    router.push(`/events/${updatedEvent._id}`)
                 }
             } catch (error) {
                 console.log(error);
