@@ -1,4 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
+import { model } from "mongoose";
+import { models } from "mongoose";
 
 export interface IEvent extends Document {
   _id: string;
@@ -31,6 +33,6 @@ const EventSchema = new Schema({
   organizer: { type: Schema.Types.ObjectId, ref: 'User' },
 })
 
-const Event = mongoose.model('Event', EventSchema);
+const Event = models.Event || model('Event', EventSchema);
 
 export default Event;

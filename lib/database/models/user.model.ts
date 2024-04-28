@@ -1,4 +1,6 @@
 import mongoose, { Schema } from "mongoose";
+import { model } from "mongoose";
+import { models } from "mongoose";
 import { Types } from "mongoose";
 import { Document } from "mongoose";
 
@@ -22,6 +24,6 @@ const UserSchema = new Schema({
   photo: { type: String, required: true },
 })
 
-const User = mongoose.model<IUser>('User', UserSchema);
+const User = models.User || model<IUser>('User', UserSchema);
 
 export default User;

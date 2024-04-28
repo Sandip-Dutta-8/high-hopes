@@ -1,4 +1,5 @@
-import mongoose, { Schema, Document } from 'mongoose'
+import mongoose, { Schema, Document, model } from 'mongoose'
+import { models } from 'mongoose'
 
 export interface IOrder extends Document {
     createdAt: Date
@@ -47,6 +48,6 @@ const OrderSchema = new Schema({
     },
 })
 
-const Order = mongoose.model('Order', OrderSchema)
+const Order = models.Order || model('Order', OrderSchema)
 
 export default Order
