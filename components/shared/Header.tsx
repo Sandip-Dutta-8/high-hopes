@@ -15,7 +15,7 @@ const Header = () => {
             src="/assets/images/logo1.png" width={38} height={20}
             alt="Evently logo"
           />
-          <h1 className='font-bold text-2xl lg:pl-3 pl-2'>Deadlines</h1>
+          <h1 className='font-bold text-2xl lg:pl-3 pl-2'>HighHopes</h1>
         </Link>
 
         <SignedIn>

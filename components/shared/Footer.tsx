@@ -11,10 +11,10 @@ const Footer = () => {
             src="/assets/images/logo1.png" width={30} height={20}
             alt="Evently logo"
           />
-          <h1 className='font-bold text-2xl lg:pl-3 pl-2'>Deadlines</h1>
+          <h1 className='font-bold text-2xl lg:pl-3 pl-2'>HighHopes</h1>
         </Link>
 
-        <p>2024 Deadlines. All Rights reserved.</p>
+        <p>2024 HighHopes. All Rights reserved.</p>
       </div>
     </footer>
   )
