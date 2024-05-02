@@ -24,7 +24,7 @@ const MobileNav = () => {
         <SheetContent className="flex flex-col gap-6 bg-white md:hidden">
           <div className="w-36 flex items-center">
             <Image
-              src="/assets/images/logo1.png" width={38} height={20}
+              src="/assets/images/logo2.png" width={38} height={20}
               alt="Evently logo"
             />
             <h1 className='font-bold text-2xl lg:pl-3 pl-2'>HighHopes</h1>

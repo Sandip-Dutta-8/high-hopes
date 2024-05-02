@@ -12,7 +12,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: 'HighHopes',
-  description: 'Deadlines is a platform for event management.',
+  description: 'HighHopes is a platform for event management.',
   icons: {
     icon: '/assets/images/logo.svg'
   }

@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="flex-center wrapper flex-between flex flex-col gap-4 p-5 text-center sm:flex-row">
         <Link href="/" className="w-36 flex items-center">
           <Image
-            src="/assets/images/logo1.png" width={30} height={20}
+            src="/assets/images/logo2.png" width={30} height={20}
             alt="Evently logo"
           />
           <h1 className='font-bold text-2xl lg:pl-3 pl-2'>HighHopes</h1>
