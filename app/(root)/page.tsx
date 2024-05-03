@@ -4,10 +4,21 @@ import { Button } from "@/components/ui/button";
 import Collection from "@/components/shared/Collection";
 import { getAllEvents } from "@/lib/actions/event.actions";
 import Search from "@/components/shared/Search";
+import { SearchParamProps } from "@/types";
+import CategoryFilter from "@/components/shared/CategoryFilter";
 
-export default async function Home() {
+export default async function Home({ searchParams }: SearchParamProps) {
 
-  const events = await getAllEvents({ query: '', limit: 6, page: 1, category: ''});
+  const page = Number(searchParams?.page) || 1;
+  const searchText = (searchParams?.query as string) || '';
+  const category = (searchParams?.category as string) || '';
+
+  const events = await getAllEvents({
+    query: searchText,
+    category,
+    page,
+    limit: 6
+  })
 
   return (
     <>
@@ -23,7 +34,7 @@ export default async function Home() {
             </Button>
           </div>
 
-          <Image 
+          <Image
             src="/assets/images/hero.png"
             alt="hero"
             width={1000}
@@ -31,24 +42,23 @@ export default async function Home() {
             className="max-h-[70vh] object-contain object-center 2xl:max-h-[50vh]"
           />
         </div>
-      </section> 
+      </section>
 
       <section id="events" className="wrapper my-8 flex flex-col gap-8 md:gap-12">
         <h2 className="h2-bold">Trust by <br /> Thousands of Events</h2>
 
-        <div className="flex w-full flex-col gap-5 md:flex-row">
-          <Search placeholder="Search event"/>
-          CategoryFilter
+        <div className="w-full">
+          <Search placeholder="Search event" />
         </div>
 
-        <Collection 
+        <Collection
           data={events?.data}
           emptyTitle="No Events Found"
           emptyStateSubtext="Come back later"
           collectionType="All_Events"
           limit={6}
-          page={1}
-          totalPages={2}
+          page={page}
+          totalPages={events?.totalPages}
         />
       </section>
     </>

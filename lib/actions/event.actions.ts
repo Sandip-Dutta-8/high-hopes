@@ -61,11 +61,15 @@ export async function getAllEvents({ query, limit = 6, page, category }: GetAllE
   try {
     await connectToDatabase()
 
-    const conditions = {};
+    const titleCondition = query ? { title: { $regex: query, $options: 'i' } } : {}
+    const conditions = {
+      $and: [titleCondition],
+    }
 
+    const skipAmount = (Number(page) - 1) * limit
     const eventsQuery = Event.find(conditions)
       .sort({ createdAt: 'desc' })
-      .skip(0)
+      .skip(skipAmount)
       .limit(limit)
 
     const events = await populateEvent(eventsQuery)
