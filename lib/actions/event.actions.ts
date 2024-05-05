@@ -16,12 +16,17 @@ import {
   GetEventsByUserParams,
   GetRelatedEventsByCategoryParams,
 } from '@/types'
+import Order from '../database/models/order.model'
 
 
 const populateEvent = (query: any) => {
   return query
     .populate({ path: 'organizer', model: User, select: '_id firstName lastName' })
     .populate({ path: 'category', model: Category, select: '_id name' })
+}
+
+const getCategoryByName = async (name: string) => {
+  return Category.findOne({ name: { $regex: name, $options: 'i' } })
 }
 
 // CREATE  EVENT
@@ -62,8 +67,9 @@ export async function getAllEvents({ query, limit = 6, page, category }: GetAllE
     await connectToDatabase()
 
     const titleCondition = query ? { title: { $regex: query, $options: 'i' } } : {}
+    const categoryCondition = category ? await getCategoryByName(category) : null
     const conditions = {
-      $and: [titleCondition],
+      $and: [titleCondition, categoryCondition ? { category: categoryCondition._id } : {}],
     }
 
     const skipAmount = (Number(page) - 1) * limit
@@ -87,14 +93,26 @@ export async function getAllEvents({ query, limit = 6, page, category }: GetAllE
 //DELETE EVENT
 export async function deleteEvent({ eventId, path }: DeleteEventParams) {
   try {
-    await connectToDatabase()
+      await connectToDatabase();
 
-    const deletedEvent = await Event.findByIdAndDelete(eventId)
-    if (deletedEvent) revalidatePath(path)
+      // Delete the event
+      const deletedEvent = await Event.findByIdAndDelete(eventId);
+
+      // If the event was deleted successfully, delete orders associated with the event ID
+      if (deletedEvent) {
+        // Delete orders where the event ID matches the deleted event's ID
+        await Order.deleteMany({ 'event': eventId });
+
+        // Revalidate the path if needed
+        if (path) {
+            revalidatePath(path);
+        }
+    }
   } catch (error) {
-    handleError(error)
+      handleError(error);
   }
 }
+
 
 //UPDATE EVENT
 export async function updateEvent({ userId, event, path }: UpdateEventParams) {

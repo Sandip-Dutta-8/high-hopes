@@ -20,7 +20,7 @@ const Card = ({ event, hasOrderLink, hidePrice }: CardProps) => {
     const isEventCreator = userId === event.organizer._id.toString();
 
     return (
-        <div className="group relative flex min-h-[350px] w-full max-w-[400px] flex-col overflow-hidden rounded-xl bg-white shadow-md transition-all hover:shadow-lg md:min-h-[438px]">
+        <div className="group relative flex min-h-[350px] w-full max-w-[400px] flex-col overflow-hidden rounded-xl bg-white shadow-md transition-all hover:shadow-lg md:min-h-[350px]">
             <Link
                 href={`/events/${event._id}`}
                 style={{ backgroundImage: `url(${event.imageUrl})` }}
@@ -39,7 +39,7 @@ const Card = ({ event, hasOrderLink, hidePrice }: CardProps) => {
             )}
 
             <div
-                className="flex min-h-[210px] flex-col gap-3 p-5 md:gap-4"
+                className="flex flex-col gap-3 p-5 md:gap-4"
             >
                 {!hidePrice && <div className="flex gap-2">
                     <span className="p-semibold-14 w-min rounded-full bg-green-100 px-4 py-1 text-green-60">
